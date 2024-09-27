@@ -1,16 +1,22 @@
 import { useState } from 'react'
 import './index.css';
+import Todo from './Todo';
+import Task from './task';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [allTodos,setTodos]=useState([])
+  // const [NewTitle,setNewTitle]=useState("")
+  // const [NewDesc,setNewDesc]=useState("")
+
+
 
   return (
-    <>
-      <div>
-        hello
+   
+      <div className='h-screen bg-gray-900'>
+      <Todo/>
       </div>
      
-    </>
+   
   )
 }
 
