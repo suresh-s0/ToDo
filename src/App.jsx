@@ -12,7 +12,7 @@ function App() {
 
   return (
    
-      <div className='h-screen bg-gray-900'>
+      <div className=' bg-gray-900'>
       <Todo/>
       </div>
      
