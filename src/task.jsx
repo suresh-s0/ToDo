@@ -27,9 +27,9 @@ function Task({ allTodos, handleDeleteTodo }) {
     <div className="flex flex-col justify-center items-center p-6  ">
 
       <div className="flex    p-2  ">
-        <button type="button" className="flex  justify-center items-center p-2 border rounded-md bg-blue-300 mr-6 hover:bg-blue-700">Tasks</button>
+        <button type="button" className="flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700">Tasks</button>
 
-        <button type="button" className="flex  justify-center items-center p-2 border rounded-md bg-green-300 hover:bg-green-700">Completed</button>
+        <button type="button" className="flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700">Completed</button>
 
       </div>
 
