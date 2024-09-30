@@ -5,7 +5,6 @@ function Todo() {
   const [allTodos, setTodos] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
- 
 
   const handleAddTodo = () => {
     //  cheking for null values
@@ -19,7 +18,7 @@ function Todo() {
       desc: newDesc,
     };
 
-    
+
 
     let updatedTodoArr = [...allTodos];
     updatedTodoArr.push(newtodoItem);
@@ -37,12 +36,14 @@ function Todo() {
     
   };
 
+
   // getting the data from the locall storage to display
   useEffect(() => {
     let savedTodo = JSON.parse(localStorage.getItem("todolist"));
     if (savedTodo) {
       setTodos(savedTodo);
     }
+    
   }, []);
 
   return (

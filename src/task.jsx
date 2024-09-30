@@ -1,9 +1,58 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 
 
 
-function Task({ allTodos, handleDeleteTodo ,handleCompletedTask}) {
+function Task({ allTodos, handleDeleteTodo }) {
+
+  const [isCompletedScreen,setIsCompletedScreen]=useState(false)
+
+
+  const[completed,setCompleted]=useState([])
+
+  const  handleCompleteTodo=(index)=>{
+
+    let now=new Date;
+    let dd=now.getDay();
+    let mm=now.getMonth()+1;
+    let yy=now.getFullYear();
+
+    let h=now.getHours();
+    let m=now.getMinutes();
+    let s=now.getSeconds();
+
+    let completedON= dd + '-'+mm+'-'+yy+ ' at ' +h+':'+m+':'+s;
+    let completedItem={
+      ...allTodos[index],
+      completedON:completedON
+    }
+    let updatedCompledArr=[...completed];
+    updatedCompledArr.push(completedItem);
+    setCompleted(updatedCompledArr);
+    handleDeleteTodo(index)
+    localStorage.setItem("Completed",JSON.stringify(updatedCompledArr))
+  };
+
+
+  useEffect(() => {
+    let completeds = JSON.parse(localStorage.getItem("Completed"));
+    if (completeds) {
+      setCompleted(completeds);
+    }
+    
+  }, []);
+
+
+  const handleDelete = (index) => {
+    let reducedTodo = [...completed];
+    reducedTodo.splice(index,1);
+
+    localStorage.setItem("Completed",JSON.stringify(reducedTodo));
+    setCompleted(reducedTodo);
+    
+  };
+
+
 
   const bin = (
     <svg
@@ -27,9 +76,9 @@ function Task({ allTodos, handleDeleteTodo ,handleCompletedTask}) {
     <div className="flex flex-col justify-center items-center p-6  ">
 
       <div className="flex    p-2  ">
-        <button type="button" className="flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700">Tasks</button>
+        <button type="button" className={`"flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700"  ${isCompletedScreen===false && "bg-blue-700 text-white "}`}  onClick={()=>setIsCompletedScreen(false)}>Tasks</button>
 
-        <button type="button" className="flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700">Completed</button>
+        <button type="button" className={` "flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700" ${isCompletedScreen===true && "bg-green-700 text-white "}`}  onClick={()=>setIsCompletedScreen(true)}>Completed</button>
 
       </div>
 
@@ -38,8 +87,8 @@ function Task({ allTodos, handleDeleteTodo ,handleCompletedTask}) {
 
         <h2 className="text-xl font-bold mb-4 text-gray-800 ">All To-Do Items</h2>
 
-      
-          {allTodos.map((todo, index) => (
+     
+          {isCompletedScreen === false && allTodos.map((todo, index) => (
             <div key={index} className="p-2 border-b flex justify-between items-center">
 
               <div className='overflow-auto'>
@@ -51,14 +100,33 @@ function Task({ allTodos, handleDeleteTodo ,handleCompletedTask}) {
                 <button onClick={() => handleDeleteTodo(index)} aria-label="Delete Task" >
                   {bin}
                 </button>
-                <button  className="">{Completed}</button>
+                <button  className="" onClick={()=>handleCompleteTodo(index)}>{Completed}</button>
               </div>
+            </div>
+          ))}
+
+
+        {isCompletedScreen===true && completed.map((item, index) => (
+            <div key={index} className="p-2 border-b flex justify-between items-center">
+
+              <div className='overflow-auto'>
+                <h3 className="font-semibold ">{item.title}</h3>
+                <p>{item.desc}</p>
+                <p>Completed On { item.completedON}</p>
+
+              </div>
+              <div className="flex items-center space-x-3">
+                <button onClick={() => handleDelete(index)} aria-label="Delete Task" >
+                  {bin}
+                </button>
+                </div>
+
             </div>
           ))}
       
        
 
-
+    
       </div>
 
 
