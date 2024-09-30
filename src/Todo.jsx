@@ -18,8 +18,6 @@ function Todo() {
       desc: newDesc,
     };
 
-
-
     let updatedTodoArr = [...allTodos];
     updatedTodoArr.push(newtodoItem);
     setTodos(updatedTodoArr);
@@ -29,13 +27,11 @@ function Todo() {
   // deleting the task
   const handleDeleteTodo = (index) => {
     let reducedTodo = [...allTodos];
-    reducedTodo.splice(index,1);
+    reducedTodo.splice(index, 1);
 
-    localStorage.setItem("todolist",JSON.stringify(reducedTodo));
+    localStorage.setItem("todolist", JSON.stringify(reducedTodo));
     setTodos(reducedTodo);
-    
   };
-
 
   // getting the data from the locall storage to display
   useEffect(() => {
@@ -43,7 +39,6 @@ function Todo() {
     if (savedTodo) {
       setTodos(savedTodo);
     }
-    
   }, []);
 
   return (
