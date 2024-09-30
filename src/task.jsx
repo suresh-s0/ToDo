@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 
 
-function Task({ allTodos, handleDeleteTodo }) {
+function Task({ allTodos, handleDeleteTodo ,handleCompletedTask}) {
 
   const bin = (
     <svg
@@ -38,9 +38,9 @@ function Task({ allTodos, handleDeleteTodo }) {
 
         <h2 className="text-xl font-bold mb-4 text-gray-800 ">All To-Do Items</h2>
 
-        <ul className="w-full">
+      
           {allTodos.map((todo, index) => (
-            <li key={index} className="p-2 border-b flex justify-between items-center">
+            <div key={index} className="p-2 border-b flex justify-between items-center">
 
               <div className='overflow-auto'>
                 <h3 className="font-semibold ">{todo.title}</h3>
@@ -51,16 +51,20 @@ function Task({ allTodos, handleDeleteTodo }) {
                 <button onClick={() => handleDeleteTodo(index)} aria-label="Delete Task" >
                   {bin}
                 </button>
-                <button className="">{Completed}</button>
+                <button  className="">{Completed}</button>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+      
        
 
 
       </div>
+
+
+
     </div>
   );
 }
 export default Task;
+
