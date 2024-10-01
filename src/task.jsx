@@ -138,7 +138,7 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
 
       <div className=" flex  flex-col border bg-white shadow-md rounded-md w-full p-4 mt-4  md:w-1/3">
         <h2 className="text-xl font-bold mb-4 text-gray-800 ">
-          All To-Do Items
+          All Tasks
         </h2>
 
         {isCompletedScreen === false &&
