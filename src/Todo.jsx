@@ -80,7 +80,7 @@ function Todo() {
         </div>
       </div>
 
-      <Task allTodos={allTodos} handleDeleteTodo={handleDeleteTodo} />
+      <Task allTodos={allTodos} handleDeleteTodo={handleDeleteTodo} setTodos={setTodos} />
     </>
   );
 }
