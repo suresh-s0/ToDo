@@ -9,7 +9,7 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
 
   const handleCompleteTodo = (index) => {
     let now = new Date();
-    let dd = now.getDay();
+    let dd = now.getDate();
     let mm = now.getMonth() + 1;
     let yy = now.getFullYear();
 
@@ -121,8 +121,7 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
       <div className="flex    p-2  ">
         <button
           type="button"
-          className={`"flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700"  ${isCompletedScreen === false && "bg-blue-700 text-white "
-            }`}
+          className={`flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700  ${isCompletedScreen === false && "bg-blue-700 text-white "}`}
           onClick={() => setIsCompletedScreen(false)}
         >
           Tasks
@@ -130,8 +129,7 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
 
         <button
           type="button"
-          className={` "flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700" ${isCompletedScreen === true && "bg-green-700 text-white "
-            }`}
+          className={` flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700 ${isCompletedScreen === true && "bg-green-700 text-white "}`}
           onClick={() => setIsCompletedScreen(true)}
         >
           Completed
