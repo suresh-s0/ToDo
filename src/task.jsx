@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 
-function Task({ allTodos, handleDeleteTodo }) {
+function Task({ allTodos, handleDeleteTodo, setTodos }) {
   const [isCompletedScreen, setIsCompletedScreen] = useState(false);
 
   const [completed, setCompleted] = useState([]);
+  const [currentEdit, setCurrentEdit] = useState("");
+  const [currentEditedItem, setCurrentEditedItems] = useState("");
 
   const handleCompleteTodo = (index) => {
     let now = new Date();
@@ -20,19 +22,12 @@ function Task({ allTodos, handleDeleteTodo }) {
       ...allTodos[index],
       completedON: completedON,
     };
-    let updatedCompledArr = [...completed];
-    updatedCompledArr.push(completedItem);
-    setCompleted(updatedCompledArr);
+    let updatedCompletedArr = [...completed];
+    updatedCompletedArr.push(completedItem);
+    setCompleted(updatedCompletedArr);
     handleDeleteTodo(index);
-    localStorage.setItem("Completed", JSON.stringify(updatedCompledArr));
+    localStorage.setItem("Completed", JSON.stringify(updatedCompletedArr));
   };
-
-  useEffect(() => {
-    let completeds = JSON.parse(localStorage.getItem("Completed"));
-    if (completeds) {
-      setCompleted(completeds);
-    }
-  }, []);
 
   const handleDelete = (index) => {
     let reducedTodo = [...completed];
@@ -42,6 +37,43 @@ function Task({ allTodos, handleDeleteTodo }) {
     setCompleted(reducedTodo);
   };
 
+  const handleEdit = (ind, item) => {
+    setCurrentEdit(ind);
+    setCurrentEditedItems(item);
+  };
+
+  const handleUpdatedTitle = (value) => {
+    setCurrentEditedItems((prev) => {
+      return { ...prev, title: value };
+    });
+  };
+
+  const handleUpdatedDesc = (value) => {
+    setCurrentEditedItems((prev) => {
+      return { ...prev, desc: value };
+    });
+  };
+
+  const handleUpdate = () => {
+    if (!currentEditedItem.title.trim() || !currentEditedItem.desc.trim()) {
+      alert("Please provide both a title and description!");
+      return;
+    }
+    let newTodo = [...allTodos];
+    newTodo[currentEdit] = currentEditedItem;
+    setTodos(newTodo);
+    localStorage.setItem("todolist", JSON.stringify(newTodo));
+
+    setCurrentEdit("");
+    setCurrentEditedItems("");
+  };
+
+  useEffect(() => {
+    let completeds = JSON.parse(localStorage.getItem("Completed"));
+    if (completeds) {
+      setCompleted(completeds);
+    }
+  }, []);
   const edit = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -89,9 +121,8 @@ function Task({ allTodos, handleDeleteTodo }) {
       <div className="flex    p-2  ">
         <button
           type="button"
-          className={`"flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700"  ${
-            isCompletedScreen === false && "bg-blue-700 text-white "
-          }`}
+          className={`"flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700"  ${isCompletedScreen === false && "bg-blue-700 text-white "
+            }`}
           onClick={() => setIsCompletedScreen(false)}
         >
           Tasks
@@ -99,9 +130,8 @@ function Task({ allTodos, handleDeleteTodo }) {
 
         <button
           type="button"
-          className={` "flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700" ${
-            isCompletedScreen === true && "bg-green-700 text-white "
-          }`}
+          className={` "flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700" ${isCompletedScreen === true && "bg-green-700 text-white "
+            }`}
           onClick={() => setIsCompletedScreen(true)}
         >
           Completed
@@ -114,36 +144,76 @@ function Task({ allTodos, handleDeleteTodo }) {
         </h2>
 
         {isCompletedScreen === false &&
-          allTodos.map((todo, index) => (
-            <div
-              key={index}
-              className="p-2 border-b flex justify-between items-center"
-            >
-              <div className="overflow-auto">
-                <h3 className="font-semibold ">{todo.title}</h3>
-                <p>{todo.desc}</p>
-              </div>
+          allTodos.map((todo, index) => {
+            if (currentEdit === index) {
+              return (
+                <div className="p-2 flex flex-col " key={index}>
+                  <input
+                    type="text"
+                    className="border font-bold p-2 "
+                    placeholder="title for editing"
+                    onChange={(e) => handleUpdatedTitle(e.target.value)}
+                    value={currentEditedItem.title}
+                  />
 
-              <div title="edit" className="flex items-center space-x-3 ">
-                <button className="">{edit}</button>
+                  <textarea
+                    type="text "
+                    className="border p-2 "
+                    placeholder="desc for editing"
+                    onChange={(e) => handleUpdatedDesc(e.target.value)}
+                    value={currentEditedItem.desc}
+                  />
 
-                <button
-                  title="delete"
-                  onClick={() => handleDeleteTodo(index)}
-                  aria-label="Delete Task"
+                  <div className="flex justify-center ">
+                    <button
+                      type="button"
+                      className="border bg-green-500 rounded-md p-2 font-semibold"
+                      onClick={handleUpdate}
+                    >
+                      update
+                    </button>
+                  </div>
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  key={index}
+                  className="p-2 border-b flex justify-between items-center"
                 >
-                  {bin}
-                </button>
-                <button
-                  title="mark as complete"
-                  className=""
-                  onClick={() => handleCompleteTodo(index)}
-                >
-                  {Completed}
-                </button>
-              </div>
-            </div>
-          ))}
+                  <div className="overflow-auto">
+                    <h3 className="font-semibold ">{todo.title}</h3>
+                    <p>{todo.desc}</p>
+                  </div>
+
+                  <div className="flex items-center space-x-3 ">
+                    <button
+                      className=""
+                      title="edit"
+                      onClick={() => handleEdit(index, todo)}
+                    >
+                      {edit}
+                    </button>
+
+                    <button
+                      title="delete"
+                      onClick={() => handleDeleteTodo(index)}
+                      aria-label="Delete Task"
+                    >
+                      {bin}
+                    </button>
+                    <button
+                      title="mark as complete"
+                      className=""
+                      onClick={() => handleCompleteTodo(index)}
+                    >
+                      {Completed}
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+          })}
 
         {isCompletedScreen === true &&
           completed.map((item, index) => (
