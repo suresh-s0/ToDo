@@ -1,0 +1,23 @@
+# Netlify configuration file for a React application
+
+[build]
+  publish = "build"           # The directory for build output (created by npm run build)
+  command = "npm run build"   # Command to build the app
+
+[dev]
+  command = "npm start"       # Command to run the development server
+  port = 3000                 # Port for local development
+
+[[redirects]]
+  from = "/old-url"           # Example redirect
+  to = "/new-url"             # New URL to redirect to
+  status = 301                # Permanent redirect
+  force = true                # Force redirect
+
+[build.environment]
+  NODE_ENV = "production"     # Set environment variable for production
+
+[[headers]]
+  for = "/*"                  # Apply this header to all routes
+  [headers.values]
+    X-Frame-Options = "DENY"  # Example security header
