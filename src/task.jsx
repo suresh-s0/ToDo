@@ -119,30 +119,39 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
   return (
     <div className="flex flex-col justify-center items-center p-6  ">
       <div className="flex    p-2  ">
+        {/* THIS BUTTON DISPLAY THE UNCOMPLETED TASKS */}
         <button
           type="button"
-          className={`flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700  ${isCompletedScreen === false && "bg-blue-700 text-white "}`}
+          className={`flex  justify-center items-center p-2 border rounded-md bg-blue-500 mr-6 hover:bg-blue-700  ${
+            isCompletedScreen === false && "bg-blue-700 text-white "
+          }`}
           onClick={() => setIsCompletedScreen(false)}
         >
           Tasks
         </button>
 
+        {/* THIS BUTTON DISPLAY THE COMPLETED TASKS */}
+
         <button
           type="button"
-          className={` flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700 ${isCompletedScreen === true && "bg-green-700 text-white "}`}
+          className={` flex  justify-center items-center p-2 border rounded-md bg-green-500 hover:bg-green-700 ${
+            isCompletedScreen === true && "bg-green-700 text-white "
+          }`}
           onClick={() => setIsCompletedScreen(true)}
         >
           Completed
         </button>
       </div>
 
+      {/* TASK FIELDS */}
       <div className=" flex  flex-col border bg-white shadow-md rounded-md w-full p-4 mt-4  md:w-1/3">
-        <h2 className="text-xl font-bold mb-4 text-gray-800 ">
-          All Tasks
-        </h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-800 ">All Tasks</h2>
+
+        {/* THIS WILL BE DISPLAY THE UNCOMPLETED TASK SECTION */}
 
         {isCompletedScreen === false &&
           allTodos.map((todo, index) => {
+            { /* CHECK FOR EDITING IF YES DISPLAY THE EDITING DISPLAY */ }
             if (currentEdit === index) {
               return (
                 <div className="p-2 flex flex-col " key={index}>
@@ -174,10 +183,13 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
                 </div>
               );
             } else {
+
+              {/* CHECK FOR EDITING IF NO DISPLAY THE ALL UNCOMPLETED TASKS  */ }
+
               return (
                 <div
                   key={index}
-                  className="p-2 border-b flex justify-between items-center"
+                  className="p-2 border-b border-gray-300   flex justify-between items-center"
                 >
                   <div className="overflow-auto">
                     <h3 className="font-semibold ">{todo.title}</h3>
@@ -212,6 +224,8 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
               );
             }
           })}
+
+        {/* THIS WILL BE DISPLAY THE COMPLETED TASK SECTION */}
 
         {isCompletedScreen === true &&
           completed.map((item, index) => (
