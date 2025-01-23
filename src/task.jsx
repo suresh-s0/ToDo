@@ -148,6 +148,7 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
         <h2 className="text-xl font-bold mb-4 text-gray-800 ">All Tasks</h2>
 
         {/* THIS WILL BE DISPLAY THE UNCOMPLETED TASK SECTION */}
+        <div className="flex flex-col max-h-72  overflow-auto">
 
         {isCompletedScreen === false &&
           allTodos.map((todo, index) => {
@@ -248,6 +249,7 @@ function Task({ allTodos, handleDeleteTodo, setTodos }) {
               </div>
             </div>
           ))}
+          </div>
       </div>
     </div>
   );
